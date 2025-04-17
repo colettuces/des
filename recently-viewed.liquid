@@ -1,0 +1,63 @@
+<section id="recently-viewed" style="padding: 2rem;">
+  <h2 style="text-align: center;">{{ section.settings.heading }}</h2>
+  <div id="recently-viewed-grid" style="margin-top: 2rem; display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+    <!-- JS will inject products here -->
+  </div>
+</section>
+
+<script>
+  const maxViewed = {{ section.settings.max_products }};
+  const viewedKey = 'recently_viewed_products';
+
+  function renderRecentlyViewed(products) {
+    const container = document.getElementById('recently-viewed-grid');
+    container.innerHTML = '';
+    products.forEach(p => {
+      const item = document.createElement('div');
+      item.innerHTML = `
+        <a href="${p.url}">
+          <img src="${p.image}" alt="${p.title}" style="width: 100%; border-radius: 8px;" />
+        </a>
+        <h3 style="margin: 0.5rem 0;">${p.title}</h3>
+        <p>${p.price}</p>
+      `;
+      container.appendChild(item);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const stored = localStorage.getItem(viewedKey);
+    if (stored) {
+      const products = JSON.parse(stored);
+      renderRecentlyViewed(products.slice(0, maxViewed));
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Recently Viewed Products",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Recently Viewed"
+    },
+    {
+      "type": "range",
+      "id": "max_products",
+      "label": "Number of Products",
+      "min": 1,
+      "max": 10,
+      "default": 4
+    }
+  ],
+  "presets": [
+    {
+      "name": "Recently Viewed",
+      "category": "Products"
+    }
+  ]
+}
+{% endschema %}

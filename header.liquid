@@ -1,0 +1,59 @@
+<header class="site-header" style="
+  text-align: {{ settings.global_text_alignment }};
+  font-family: {% if settings.global_font_family == 'averia' %}'Averia Serif Libre'{% elsif settings.global_font_family == 'inter' %}'Inter'{% else %}'Work Sans'{% endif %}, sans-serif;
+  color: {{ settings.global_text_color }};
+  position: relative;
+  padding: 1.5rem 2rem;
+">
+  <div class="header-inner" style="display: flex; justify-content: space-between; align-items: center;">
+    <div class="logo">
+      <a href="/" style="color: {{ settings.global_text_color }};">
+        {{ shop.name }}
+      </a>
+    </div>
+
+    <div class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('active')">☰</div>
+  </div>
+
+  <nav class="nav-links">
+    {% for link in linklists.main-menu.links %}
+      <a href="{{ link.url }}">{{ link.title }}</a>
+    {% endfor %}
+  </nav>
+</header>
+
+<style>
+  .nav-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .hamburger {
+    display: none;
+    font-size: 2rem;
+    cursor: pointer;
+  }
+
+  @media (max-width: 768px) {
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      gap: 1rem;
+      padding: 1rem;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      margin-top: 1rem;
+    }
+
+    .nav-links.active {
+      display: flex;
+    }
+
+    .hamburger {
+      display: block;
+    }
+  }
+</style>

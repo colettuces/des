@@ -1,0 +1,221 @@
+<section class="testimonial-carousel" style="
+  background-color: {{ section.settings.bg_color }};
+  border-radius: {{ section.settings.corner_radius }}px;
+  opacity: {{ section.settings.opacity }};
+  padding: 2rem;
+  max-width: {{ settings.site_max_width }}px;
+  margin: auto;
+  text-align: {{ section.settings.text_align }};
+">
+  <h2 style="margin-bottom: 2rem; font-family: var(--heading-font); color: {{ settings.global_text_color }};">
+    {{ section.settings.heading }}
+  </h2>
+
+  {% if section.settings.layout == "carousel" %}
+    <div class="swiper testimonial-swiper">
+      <div class="swiper-wrapper">
+        {% for block in section.blocks limit: section.settings.max_reviews %}
+          <div class="swiper-slide testimonial-card" style="background: white; padding: 1.5rem; border-radius: 12px; display: flex; gap: 1.5rem; position: relative;">
+            {% if block.settings.image %}
+              <img src="{{ block.settings.image | image_url: width: 100 }}" alt="{{ block.settings.heading }}" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; flex-shrink: 0;">
+            {% endif %}
+            <div class="testimonial-content" style="position: relative;">
+              <div class="quote-mark quote-left">“</div>
+              <blockquote style="margin: 0; padding: 0; position: relative; z-index: 2;">
+                <h3 style="margin-bottom: 0.5rem;">{{ block.settings.heading }}</h3>
+                <p style="margin: 0 0 1rem;">{{ block.settings.text }}</p>
+                <div class="stars" style="color: {{ section.settings.star_color }};">
+                  {% for i in (1..block.settings.stars) %}
+                    ⭐
+                  {% endfor %}
+                </div>
+              </blockquote>
+              <div class="quote-mark quote-right">”</div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    </div>
+  {% else %}
+    <div class="testimonial-stacked" style="display: grid; gap: 2rem;">
+      {% for block in section.blocks limit: section.settings.max_reviews %}
+        <div class="testimonial-card" style="background: white; padding: 1.5rem; border-radius: 12px;">
+          {% if block.settings.image %}
+            <img src="{{ block.settings.image | image_url: width: 100 }}" alt="{{ block.settings.heading }}" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover;">
+          {% endif %}
+          <h3 style="margin-top: 1rem;">{{ block.settings.heading }}</h3>
+          <p>{{ block.settings.text }}</p>
+          <div class="stars" style="color: {{ section.settings.star_color }};">
+            {% for i in (1..block.settings.stars) %}
+              ⭐
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</section>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (document.querySelector('.testimonial-swiper')) {
+      new Swiper('.testimonial-swiper', {
+        loop: true,
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev'
+        },
+        slidesPerView: 1,
+        spaceBetween: 20,
+        breakpoints: {
+          768: { slidesPerView: 1.2 },
+          1024: { slidesPerView: 2 }
+        }
+      });
+    }
+  });
+</script>
+
+<style>
+  .quote-mark {
+    font-size: 4rem;
+    font-weight: bold;
+    color: rgba(147, 63, 26, 0.1);
+    font-family: var(--heading-font, 'Averia Serif Libre');
+    position: absolute;
+    z-index: 1;
+    animation: floatQuote 6s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .quote-left { top: -10px; left: -20px; }
+  .quote-right { bottom: -20px; right: -10px; }
+  @keyframes floatQuote {
+    0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.2; }
+    50% { transform: translateY(-5px) rotate(1deg); opacity: 0.4; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Testimonial Carousel",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "What Our Customers Say"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star Icon Color",
+      "default": "#ffc107"
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Display Style",
+      "options": [
+        { "value": "carousel", "label": "Carousel" },
+        { "value": "stacked", "label": "Stacked" }
+      ],
+      "default": "carousel"
+    },
+    {
+      "type": "range",
+      "id": "corner_radius",
+      "label": "Card Border Radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "opacity",
+      "label": "Transparency (Opacity)",
+      "min": 0.3,
+      "max": 1,
+      "step": 0.05,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "max_reviews",
+      "label": "Number of Reviews to Show",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "default": 5
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Customer Name or Title",
+          "default": "Jane Doe"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Testimonial Text",
+          "default": "I absolutely loved the experience. The quality and service were top-notch!"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Customer Photo"
+        },
+        {
+          "type": "range",
+          "id": "stars",
+          "label": "Star Rating",
+          "min": 1,
+          "max": 5,
+          "default": 5
+        }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "Customer Testimonials",
+      "category": "Testimonials",
+      "blocks": [
+        { "type": "testimonial" },
+        { "type": "testimonial" },
+        { "type": "testimonial" }
+      ]
+    }
+  ]
+}
+{% endschema %}

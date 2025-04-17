@@ -1,0 +1,36 @@
+<section class="image-block" style="text-align: center; padding: 2rem;">
+  {% if section.settings.image %}
+    <img
+      src="{{ section.settings.image | image_url }}"
+      alt="{{ section.settings.alt_text }}"
+      style="max-width: 100%; height: auto; border-radius: 8px;"
+    >
+  {% else %}
+    <p style="color: #ccc;">No image selected yet.</p>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Image Block",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "alt_text",
+      "label": "Alt Text",
+      "default": "Image description"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image Block",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

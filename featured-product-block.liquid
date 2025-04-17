@@ -1,0 +1,69 @@
+<section class="featured-products-block" style="padding: 2rem;">
+  <div class="featured-products-grid" style="--grid-columns: {{ section.settings.products_per_row }};">
+    {% for product_handle in section.settings.featured_products %}
+      {% assign product = all_products[product_handle] %}
+      {% if product %}
+        <div class="product-card">
+          <div class="product-image-wrapper" style="position: relative;">
+            <a href="{{ product.url }}">
+              <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title }}" class="product-image" />
+            </a>
+
+            {% if product.compare_at_price > product.price %}
+              <span class="sale-badge">Sale</span>
+            {% endif %}
+          </div>
+
+          <h3 class="product-title">
+            <a href="{{ product.url }}" style="text-decoration: none; color: inherit;">
+              {{ product.title }}
+            </a>
+          </h3>
+
+          <p class="product-price">
+            {% if product.compare_at_price > product.price %}
+              <span class="price-current">{{ product.price | money }}</span>
+              <span class="price-compare" style="text-decoration: line-through; color: #999;">{{ product.compare_at_price | money }}</span>
+            {% else %}
+              <span class="price-current">{{ product.price | money }}</span>
+            {% endif %}
+          </p>
+
+          <form class="add-to-cart-form" method="post" action="/cart/add">
+            <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+            <button type="submit" class="btn btn-primary">Add to Cart</button>
+          </form>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured Products Block",
+  "settings": [
+    {
+      "type": "product_list",
+      "id": "featured_products",
+      "label": "Select Products"
+    },
+    {
+      "type": "range",
+      "id": "products_per_row",
+      "label": "Products Per Row",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Products",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}
+

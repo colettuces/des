@@ -1,0 +1,27 @@
+<!-- sections/shop-all.liquid -->
+<section style="padding: 3rem 1rem; max-width: 1200px; margin: auto;">
+  <h2 style="text-align: center; color: #933f1a; font-size: 2rem; margin-bottom: 2rem;">Shop All Products</h2>
+  {% paginate collections.all.products by 8 %}
+    <div class="product-grid">
+      {% for product in collections.all.products %}
+        {% render 'product-card', product: product %}
+      {% endfor %}
+    </div>
+    <div style="text-align: center; margin-top: 2rem;">
+      {{ paginate | default_pagination }}
+    </div>
+  {% endpaginate %}
+</section>
+
+{% schema %}
+{
+  "name": "Shop All",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Shop All",
+      "category": "Products"
+    }
+  ]
+}
+{% endschema %}

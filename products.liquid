@@ -1,0 +1,111 @@
+<section style="padding: 3rem 1rem;">
+  {% if section.settings.show_section %}
+    <h2 style="text-align: {{ section.settings.text_alignment }}; font-family: {% if section.settings.font_family == 'averia' %}'Averia Serif Libre'{% elsif section.settings.font_family == 'inter' %}'Inter'{% else %}'Work Sans'{% endif %}; color: {{ section.settings.text_color }};">
+      {{ section.settings.section_title }}
+    </h2>
+
+    <div class="product-grid" style="display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-top: 2rem;">
+      {% for product in collections.all.products limit: section.settings.product_limit %}
+        {% render 'product-card', product: product, show_sale_badge: section.settings.show_sale_badge, badge_text: section.settings.badge_text, badge_bg: section.settings.badge_background, badge_text_color: section.settings.badge_text_color, badge_font: section.settings.badge_font %}
+      {% endfor %}
+    </div>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Products Section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_section",
+      "label": "Show This Section",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "Shop All Products"
+    },
+    {
+      "type": "range",
+      "id": "product_limit",
+      "label": "Number of Products to Show",
+      "min": 4,
+      "max": 24,
+      "step": 4,
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "font_family",
+      "label": "Font Family",
+      "options": [
+        { "value": "averia", "label": "Averia Serif Libre" },
+        { "value": "inter", "label": "Inter" },
+        { "value": "work_sans", "label": "Work Sans" }
+      ],
+      "default": "averia"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#2f2f2f"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sale_badge",
+      "label": "Show Sale Badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge Text",
+      "default": "On Sale"
+    },
+    {
+      "type": "color",
+      "id": "badge_background",
+      "label": "Badge Background Color",
+      "default": "#f9b8c4"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Badge Text Color",
+      "default": "#2f2f2f"
+    },
+    {
+      "type": "select",
+      "id": "badge_font",
+      "label": "Badge Font Family",
+      "options": [
+        { "value": "averia", "label": "Averia Serif Libre" },
+        { "value": "inter", "label": "Inter" },
+        { "value": "work_sans", "label": "Work Sans" }
+      ],
+      "default": "work_sans"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Grid",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

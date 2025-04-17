@@ -1,0 +1,81 @@
+<section class="mockup-pngs" style="position: relative; width: 100%; z-index: 1;">
+  {% for block in section.blocks %}
+    {% if block.settings.image %}
+      <img
+        src="{{ block.settings.image | image_url }}"
+        alt="Mockup PNG"
+        style="
+          position: absolute;
+          top: {{ block.settings.top }};
+          {% if block.settings.side == 'left' %} left: {{ block.settings.side_offset }}; {% else %} right: {{ block.settings.side_offset }}; {% endif %}
+          width: {{ block.settings.width }};
+          transform: rotate({{ block.settings.rotation }}deg);
+          z-index: 0;
+        "
+      >
+    {% endif %}
+  {% endfor %}
+</section>
+
+{% schema %}
+{
+  "name": "Mockup PNGs",
+  "settings": [],
+  "max_blocks": 10,
+  "blocks": [
+    {
+      "type": "png",
+      "name": "Positioned PNG",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Upload PNG"
+        },
+        {
+          "type": "text",
+          "id": "top",
+          "label": "Top Position (e.g., 10px or 20%)",
+          "default": "0px"
+        },
+        {
+          "type": "select",
+          "id": "side",
+          "label": "Position From",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "text",
+          "id": "side_offset",
+          "label": "Side Offset (e.g., 0px or 5%)",
+          "default": "0px"
+        },
+        {
+          "type": "text",
+          "id": "width",
+          "label": "Width (e.g., 100px or 10%)",
+          "default": "150px"
+        },
+        {
+          "type": "range",
+          "id": "rotation",
+          "label": "Rotation (degrees)",
+          "min": -180,
+          "max": 180,
+          "default": 0
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mockup PNGs",
+      "category": "Visual Design"
+    }
+  ]
+}
+{% endschema %}

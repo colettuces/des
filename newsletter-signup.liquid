@@ -1,0 +1,23 @@
+<!-- sections/newsletter-signup.liquid -->
+<section style="padding: 4rem 1rem; background: #fdf8f2; text-align: center;">
+  <h2 style="color: #933f1a; font-size: 1.8rem;">Join our newsletter</h2>
+  <p style="margin-top: 0.5rem; color: #6a4e32;">Be the first to hear about new releases & bookish freebies.</p>
+  <form method="post" action="/contact#newsletter" accept-charset="UTF-8" style="margin-top: 1.5rem;">
+    <input type="hidden" name="form_type" value="customer" />
+    <input type="email" name="contact[email]" placeholder="Your email..." required style="padding: 0.75rem; border-radius: 6px; border: 1px solid #ccc; width: 280px;">
+    <button type="submit" class="btn btn-primary" style="margin-left: 1rem;">Subscribe</button>
+  </form>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter Signup",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Newsletter Signup",
+      "category": "Contact"
+    }
+  ]
+}
+{% endschema %}

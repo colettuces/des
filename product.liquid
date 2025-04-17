@@ -1,0 +1,118 @@
+{% layout 'theme' %}
+
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" defer />
+
+<section class="product-page" style="padding: 4rem 2rem; max-width: {{ settings.site_max_width }}px; margin: auto;">
+  <div class="product-container" style="display: flex; flex-wrap: wrap; gap: 3rem; align-items: flex-start;">
+
+    <!-- Media Gallery Carousel -->
+    <div class="media-gallery" style="flex: 1; min-width: 300px;">
+      <div class="swiper product-swiper" style="padding-bottom: 2rem;">
+        <div class="swiper-wrapper">
+          {% for media in product.media %}
+            <div class="swiper-slide" style="border-radius: 10px; overflow: hidden;">
+              {% case media.media_type %}
+                {% when 'image' %}
+                  <img src="{{ media | image_url: width: 800 }}" alt="{{ media.alt | escape | default: product.title }}" loading="lazy" style="width: 100%;">
+                {% when 'video' %}
+                  {{ media | video_tag: controls: true }}
+                {% when 'external_video' %}
+                  {{ media | external_video_tag }}
+                {% when 'model' %}
+                  {{ media | model_viewer_tag }}
+              {% endcase %}
+            </div>
+          {% endfor %}
+        </div>
+
+        <div class="swiper-button-next" style="color: white;"></div>
+        <div class="swiper-button-prev" style="color: white;"></div>
+      </div>
+    </div>
+
+    <!-- Product Info -->
+    <div style="flex: 1; min-width: 280px;">
+      <h1 style="font-size: {{ settings.heading_font_size }}px; color: {{ settings.global_text_color }}; margin-bottom: 0.5rem;">
+        {{ product.title }}
+      </h1>
+
+      {% if product.collections.first %}
+        <div style="font-size: 0.75rem; text-transform: uppercase; font-weight: 600; color: {{ settings.global_text_color }}; margin-bottom: 1rem;">
+          {{ product.collections.first.title }}
+        </div>
+      {% endif %}
+
+      {% if product.compare_at_price > product.price %}
+        <p style="font-size: 1.2rem; font-weight: 600; color: #6a4e32;">
+          <span>{{ product.price | money }}</span>
+          <span style="margin-left: 1rem; color: #aaa; text-decoration: line-through;">{{ product.compare_at_price | money }}</span>
+        </p>
+      {% else %}
+        <p style="font-size: 1.2rem; font-weight: 600; color: #6a4e32;">
+          {{ product.price | money }}
+        </p>
+      {% endif %}
+
+      <!-- Add to Cart -->
+      <form class="add-to-cart-form" method="post" action="/cart/add" aria-label="Add product to cart" style="margin-bottom: 2rem;">
+        {% if product.variants.size > 1 %}
+          <label for="variant" style="display: block; margin-bottom: 0.5rem; color: #5a3e2b;">Choose a variant:</label>
+          <select name="id" id="variant" style="padding: 0.5rem; font-size: 1rem; margin-bottom: 1rem;">
+            {% for variant in product.variants %}
+              <option value="{{ variant.id }}">{{ variant.title }} — {{ variant.price | money }}</option>
+            {% endfor %}
+          </select>
+        {% else %}
+          <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+        {% endif %}
+
+        <button type="submit" class="btn btn-primary">Add to Cart</button>
+      </form>
+
+      <!-- Product Description -->
+      <div style="font-size: 0.95rem; color: #4c3925; line-height: 1.6; text-align: left; max-width: 500px; margin-top: 1rem;">
+        {{ product.description }}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SwiperJS Carousel Script -->
+<script defer src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    new Swiper('.product-swiper', {
+      loop: true,
+      centeredSlides: true,
+      slidesPerView: 1.2,
+      spaceBetween: 20,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev'
+      },
+      keyboard: true,
+      breakpoints: {
+        768: { slidesPerView: 1.5, spaceBetween: 30 },
+        1024: { slidesPerView: 1.7, spaceBetween: 40 }
+      }
+    });
+  });
+</script>
+
+<!-- Track Recently Viewed -->
+<script>
+  const key = 'recently_viewed_products';
+  const viewed = JSON.parse(localStorage.getItem(key)) || [];
+
+  const newProduct = {
+    title: "{{ product.title | escape }}",
+    url: "{{ product.url }}",
+    image: "{{ product.featured_image | image_url: width: 400 }}",
+    price: "{{ product.price | money }}"
+  };
+
+  const filtered = viewed.filter(p => p.url !== newProduct.url);
+  filtered.unshift(newProduct);
+  localStorage.setItem(key, JSON.stringify(filtered.slice(0, 10)));
+</script>

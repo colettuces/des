@@ -1,0 +1,204 @@
+<section class="welcome">
+  {% if section.settings.show_decor %}
+    <div class="decor decor-bottom-left"></div>
+  {% endif %}
+
+  <h2>
+    {{ section.settings.heading }}<br>
+    <span>{{ section.settings.brand_name }}</span>
+  </h2>
+
+  <p>{{ section.settings.paragraph_1 }}</p>
+  <p>{{ section.settings.paragraph_2 }}</p>
+
+  {% if section.settings.show_decor %}
+    <div class="decor decor-bottom-right"></div>
+  {% endif %}
+
+  {% if section.settings.show_decor_top_left %}
+    <div class="decor" style="
+      background-image: url({{ section.settings.decor_top_left_image | asset_url }});
+      top: {{ section.settings.decor_top_left_top }};
+      left: {{ section.settings.decor_top_left_left }};
+      bottom: {{ section.settings.decor_top_left_bottom }};
+      right: {{ section.settings.decor_top_left_right }};
+    "></div>
+  {% endif %}
+
+  {% if section.settings.show_decor_top_right %}
+    <div class="decor" style="
+      background-image: url({{ section.settings.decor_top_right_image | asset_url }});
+      top: {{ section.settings.decor_top_right_top }};
+      left: {{ section.settings.decor_top_right_left }};
+      bottom: {{ section.settings.decor_top_right_bottom }};
+      right: {{ section.settings.decor_top_right_right }};
+    "></div>
+  {% endif %}
+
+  {% if section.settings.show_decor_bottom_left %}
+    <div class="decor" style="
+      background-image: url({{ section.settings.decor_bottom_left_image | asset_url }});
+      top: {{ section.settings.decor_bottom_left_top }};
+      left: {{ section.settings.decor_bottom_left_left }};
+      bottom: {{ section.settings.decor_bottom_left_bottom }};
+      right: {{ section.settings.decor_bottom_left_right }};
+    "></div>
+  {% endif %}
+
+  {% if section.settings.show_decor_bottom_right %}
+    <div class="decor" style="
+      background-image: url({{ section.settings.decor_bottom_right_image | asset_url }});
+      top: {{ section.settings.decor_bottom_right_top }};
+      left: {{ section.settings.decor_bottom_right_left }};
+      bottom: {{ section.settings.decor_bottom_right_bottom }};
+      right: {{ section.settings.decor_bottom_right_right }};
+    "></div>
+  {% endif %}
+
+  {% if section.settings.show_decor_left_illustration %}
+    <div class="decor" style="
+      background-image: url({{ section.settings.decor_left_illustration_image | asset_url }});
+      top: {{ section.settings.decor_left_illustration_top }};
+      left: {{ section.settings.decor_left_illustration_left }};
+      bottom: {{ section.settings.decor_left_illustration_bottom }};
+      right: {{ section.settings.decor_left_illustration_right }};
+    "></div>
+  {% endif %}
+
+  {% if section.settings.show_decor_right_illustration %}
+    <div class="decor" style="
+      background-image: url({{ section.settings.decor_right_illustration_image | asset_url }});
+      top: {{ section.settings.decor_right_illustration_top }};
+      left: {{ section.settings.decor_right_illustration_left }};
+      bottom: {{ section.settings.decor_right_illustration_bottom }};
+      right: {{ section.settings.decor_right_illustration_right }};
+    "></div>
+  {% endif %}
+
+  {% if customer %}
+    <p>Welcome back, {{ customer.first_name }}!</p>
+    <a href="/account" class="btn">View My Account</a>
+  {% else %}
+    <a href="/account/login" class="btn">Login</a>
+    <a href="/account/register" class="btn">Sign Up</a>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Welcome Section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Welcome Heading",
+      "default": "Welcome to"
+    },
+    {
+      "type": "text",
+      "id": "brand_name",
+      "label": "Brand Name",
+      "default": "DesignsbyColettuces"
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph_1",
+      "label": "First Paragraph",
+      "default": "Whether you’re starting your bookstagram or looking to level up your content, you’re in the right place."
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph_2",
+      "label": "Second Paragraph",
+      "default": "Here, you’ll find vintage-inspired Canva templates and bookish design tools — all crafted to help you show up online in a way that feels soft, stylish, and unapologetically you."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_decor",
+      "label": "Show Decorative Illustrations",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Decorative Elements"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_decor_top_left",
+      "label": "Show Top Left Decor",
+      "default": true
+    },
+    { "type": "text", "id": "decor_top_left_image", "label": "Top Left Image", "default": "openbook.png" },
+    { "type": "text", "id": "decor_top_left_top", "label": "Top", "default": "20px" },
+    { "type": "text", "id": "decor_top_left_left", "label": "Left", "default": "20px" },
+    { "type": "text", "id": "decor_top_left_bottom", "label": "Bottom", "default": "" },
+    { "type": "text", "id": "decor_top_left_right", "label": "Right", "default": "" },
+
+    {
+      "type": "checkbox",
+      "id": "show_decor_top_right",
+      "label": "Show Top Right Decor",
+      "default": true
+    },
+    { "type": "text", "id": "decor_top_right_image", "label": "Top Right Image", "default": "pen.png" },
+    { "type": "text", "id": "decor_top_right_top", "label": "Top", "default": "20px" },
+    { "type": "text", "id": "decor_top_right_left", "label": "Left", "default": "" },
+    { "type": "text", "id": "decor_top_right_bottom", "label": "Bottom", "default": "" },
+    { "type": "text", "id": "decor_top_right_right", "label": "Right", "default": "20px" },
+
+    {
+      "type": "checkbox",
+      "id": "show_decor_bottom_left",
+      "label": "Show Bottom Left Decor",
+      "default": true
+    },
+    { "type": "text", "id": "decor_bottom_left_image", "label": "Bottom Left Image", "default": "handholdingbook.png" },
+    { "type": "text", "id": "decor_bottom_left_top", "label": "Top", "default": "" },
+    { "type": "text", "id": "decor_bottom_left_left", "label": "Left", "default": "20px" },
+    { "type": "text", "id": "decor_bottom_left_bottom", "label": "Bottom", "default": "20px" },
+    { "type": "text", "id": "decor_bottom_left_right", "label": "Right", "default": "" },
+
+    {
+      "type": "checkbox",
+      "id": "show_decor_bottom_right",
+      "label": "Show Bottom Right Decor",
+      "default": true
+    },
+    { "type": "text", "id": "decor_bottom_right_image", "label": "Bottom Right Image", "default": "calendar.png" },
+    { "type": "text", "id": "decor_bottom_right_top", "label": "Top", "default": "" },
+    { "type": "text", "id": "decor_bottom_right_left", "label": "Left", "default": "" },
+    { "type": "text", "id": "decor_bottom_right_bottom", "label": "Bottom", "default": "20px" },
+    { "type": "text", "id": "decor_bottom_right_right", "label": "Right", "default": "20px" },
+
+    {
+      "type": "checkbox",
+      "id": "show_decor_left_illustration",
+      "label": "Show Left Illustration",
+      "default": true
+    },
+    { "type": "text", "id": "decor_left_illustration_image", "label": "Left Illustration Image", "default": "convo.png" },
+    { "type": "text", "id": "decor_left_illustration_top", "label": "Top", "default": "" },
+    { "type": "text", "id": "decor_left_illustration_left", "label": "Left", "default": "30px" },
+    { "type": "text", "id": "decor_left_illustration_bottom", "label": "Bottom", "default": "30px" },
+    { "type": "text", "id": "decor_left_illustration_right", "label": "Right", "default": "" },
+
+    {
+      "type": "checkbox",
+      "id": "show_decor_right_illustration",
+      "label": "Show Right Illustration",
+      "default": true
+    },
+    { "type": "text", "id": "decor_right_illustration_image", "label": "Right Illustration Image", "default": "phone.png" },
+    { "type": "text", "id": "decor_right_illustration_top", "label": "Top", "default": "" },
+    { "type": "text", "id": "decor_right_illustration_left", "label": "Left", "default": "" },
+    { "type": "text", "id": "decor_right_illustration_bottom", "label": "Bottom", "default": "30px" },
+    { "type": "text", "id": "decor_right_illustration_right", "label": "Right", "default": "30px" }
+  ],
+  "presets": [
+    {
+      "name": "Welcome",
+      "category": "Hero"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,49 @@
+{
+  "general": {
+    "404": {
+      "title": "Page not found",
+      "subtext": "Sorry, the page you’re looking for doesn’t exist.",
+      "link": "Return to homepage"
+    },
+    "newsletter_form": {
+      "heading": "Join the Cozy Bookish Circle 📚",
+      "label": "Enter your email",
+      "button_label": "Subscribe",
+      "success": "Thanks for joining! Check your inbox for a welcome treat 💌"
+    },
+    "pagination": {
+      "next": "Next",
+      "previous": "Previous"
+    },
+    "buttons": {
+      "add_to_cart": "Add to Cart",
+      "view_product": "View Product",
+      "checkout": "Checkout",
+      "update_cart": "Update Cart",
+      "go_to_cart": "Go to Cart"
+    }
+  },
+  "cart": {
+    "title": "Your Cart",
+    "empty": "Your cart is currently empty.",
+    "total_label": "Total",
+    "update": "Update",
+    "checkout": "Checkout"
+  },
+  "products": {
+    "product": {
+      "from_price_html": "From {{ price }}",
+      "sale": "On Sale",
+      "description_heading": "Product Details"
+    }
+  },
+  "collections": {
+    "title": "Our Collections",
+    "shop_all": "Shop All"
+  },
+  "welcome": {
+    "headline": "Welcome to DesignsbyColettuces",
+    "paragraph_1": "Whether you're starting your bookstagram or leveling up your brand, you're in the right place.",
+    "paragraph_2": "Here you’ll find vintage-inspired Canva templates and design tools crafted to help you shine."
+  }
+}

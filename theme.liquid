@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#ffffff" />
+  <title>{{ shop.name }}</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:wght@400;700&family=Work+Sans:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  {{ 'styles.css' | asset_url | stylesheet_tag }}
+
+  <!-- Shopify Head -->
+  {{ content_for_header }}
+</head>
+
+<body style="
+  font-family: {% if settings.global_font_family == 'averia' %}'Averia Serif Libre'{% elsif settings.global_font_family == 'inter' %}'Inter'{% else %}'Work Sans'{% endif %};
+  color: {{ settings.global_text_color }};
+  text-align: {{ settings.global_text_alignment }};
+  background: {% if settings.global_background_type == 'solid' %}
+    {{ settings.global_bg_color }};
+  {% else %}
+    {{ settings.global_bg_gradient }};
+  {% endif %};
+">
+
+ {% render 'header' %}
+  <main role="main">
+    {{ content_for_layout }}
+  </main>
+  {% section 'footer' %}
+
+  <!-- Cart Drawer + Scripts -->
+  {{ 'scripts.js' | asset_url | script_tag }}
+
+  <!-- Lazy load & Search + Cart + Swiper Setup -->
+  <script defer src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const input = document.getElementById('live-search');
+      const resultsBox = document.getElementById('live-search-results');
+
+      if (input && resultsBox) {
+        input.addEventListener('input', function () {
+          const query = input.value.trim();
+          if (query.length < 2) {
+            resultsBox.style.display = 'none';
+            return;
+          }
+
+          fetch(`/search/suggest.json?q=${encodeURIComponent(query)}&resources[type]=product,page,article&resources[limit]=6`)
+            .then(res => res.json())
+            .then(data => {
+              resultsBox.innerHTML = '';
+              const items = [
+                ...(data.resources.products.results || []),
+                ...(data.resources.pages.results || []),
+                ...(data.resources.articles.results || [])
+              ];
+
+              if (items.length === 0) {
+                resultsBox.innerHTML = `<li style="padding: 0.5rem; color: #6a4e32;">No results found</li>`;
+              } else {
+                items.forEach(item => {
+                  const li = document.createElement('li');
+                  li.style.padding = '0.75rem';
+                  li.style.borderBottom = '1px solid #eee';
+                  li.innerHTML = `
+                    <a href="${item.url}" style="text-decoration: none; color: #5a3e2b; display: flex; gap: 1rem; align-items: center;">
+                      ${item.featured_image ? `<img src="${item.featured_image}" style="width: 40px; border-radius: 4px;" loading="lazy">` : ''}
+                      <span>${item.title}</span>
+                    </a>`;
+                  resultsBox.appendChild(li);
+                });
+              }
+              resultsBox.style.display = 'block';
+            });
+        });
+
+        document.addEventListener('click', function (e) {
+          if (!resultsBox.contains(e.target) && e.target !== input) {
+            resultsBox.style.display = 'none';
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

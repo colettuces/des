@@ -1,0 +1,67 @@
+{% layout 'theme' %}
+
+<section style="padding: 3rem 1rem; max-width: 1400px; margin: auto;">
+  <!-- Search Bar -->
+  <form method="get" action="/search" style="margin-bottom: 2rem; text-align: center;">
+    <input
+      type="search"
+      name="q"
+      value="{{ search.terms | escape }}"
+      placeholder="Search our shelves..."
+      style="padding: 0.75rem 1.5rem; border: 1px solid #ddd; width: 60%; max-width: 400px; border-radius: 8px; font-size: 1rem;"
+    />
+    <button type="submit" class="btn" style="margin-left: 1rem;">Search</button>
+  </form>
+
+  <!-- Category Tabs -->
+  <div class="search-tabs" style="text-align: center; margin-bottom: 2rem;">
+    {% assign types = 'all,product,page,article' | split: ',' %}
+    {% for type in types %}
+      {% assign label = type | capitalize %}
+      <a
+        href="/search?q={{ search.terms | escape }}{% unless type == 'all' %}&type={{ type }}{% endunless %}"
+        class="tab"
+        style="
+          margin: 0 0.5rem;
+          padding: 0.5rem 1rem;
+          text-decoration: none;
+          font-weight: bold;
+          border-bottom: 2px solid {% if type == search.types[0] or (search.types == blank and type == 'all') %}#933f1a{% else %}transparent{% endif %};
+          color: {% if type == search.types[0] or (search.types == blank and type == 'all') %}#933f1a{% else %}#5a3e2b{% endif %};
+        ">
+        {{ label }}
+      </a>
+    {% endfor %}
+  </div>
+
+  <!-- Results Grid -->
+  {% if search.results.size > 0 %}
+    <div class="search-results-grid" style="
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+      justify-content: center;
+    ">
+      {% for item in search.results %}
+        <div style="background: #fffdf6; border: 1px solid #f0e6d6; padding: 1rem; border-radius: 8px; box-shadow: 2px 2px 10px rgba(0,0,0,0.05);">
+          <a href="{{ item.url }}" style="text-decoration: none; color: inherit;">
+            {% if item.object_type == 'product' %}
+              <img src="{{ item.featured_image | image_url: width: 400 }}" alt="{{ item.title }}" style="width: 100%; border-radius: 6px; margin-bottom: 0.75rem;">
+            {% endif %}
+            <h3 style="font-size: 1.1rem; color: #933f1a;">{{ item.title }}</h3>
+            {% if item.object_type == 'product' %}
+              <p style="font-size: 0.95rem; font-weight: bold; color: #6a4e32;">{{ item.price | money }}</p>
+            {% endif %}
+            <p style="font-size: 0.85rem; color: #4c3925;">
+              {{ item.content | strip_html | truncatewords: 20 }}
+            </p>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p style="text-align: center; margin-top: 2rem; font-style: italic; color: #6a4e32;">
+      No matches found for “{{ search.terms }}” — try a different cozy keyword 🌿
+    </p>
+  {% endif %}
+</section>

@@ -1,0 +1,123 @@
+[
+  {
+    "name": "Global Theme Styles",
+    "settings": [
+      {
+        "type": "select",
+        "id": "global_font_family",
+        "label": "Global Font Family",
+        "options": [
+          { "value": "averia", "label": "Averia Serif Libre" },
+          { "value": "inter", "label": "Inter" },
+          { "value": "work_sans", "label": "Work Sans" }
+        ],
+        "default": "averia"
+      },
+      {
+        "type": "color",
+        "id": "global_text_color",
+        "label": "Default Text Color",
+        "default": "#2f2f2f"
+      },
+      {
+        "type": "select",
+        "id": "global_text_alignment",
+        "label": "Default Text Alignment",
+        "options": [
+          { "value": "left", "label": "Left" },
+          { "value": "center", "label": "Center" },
+          { "value": "right", "label": "Right" }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "radio",
+        "id": "global_background_type",
+        "label": "Site Background Type",
+        "options": [
+          { "value": "solid", "label": "Solid Color" },
+          { "value": "gradient", "label": "Gradient" }
+        ],
+        "default": "gradient"
+      },
+      {
+        "type": "color",
+        "id": "global_bg_color",
+        "label": "Solid Background Color",
+        "default": "#fef6e7"
+      },
+      {
+        "type": "text",
+        "id": "global_bg_gradient",
+        "label": "Gradient CSS",
+        "default": "linear-gradient(135deg, #fef6e7, #fbeacc, #fdf2e7)"
+      },
+      {
+        "type": "range",
+        "id": "heading_font_size",
+        "label": "Heading Font Size (px)",
+        "min": 20,
+        "max": 64,
+        "step": 2,
+        "default": 36
+      },
+      {
+        "type": "range",
+        "id": "body_font_size",
+        "label": "Body Font Size (px)",
+        "min": 12,
+        "max": 24,
+        "step": 1,
+        "default": 16
+      },
+      {
+        "type": "color",
+        "id": "button_background_color",
+        "label": "Button Background Color",
+        "default": "#c4562a"
+      },
+      {
+        "type": "color",
+        "id": "button_text_color",
+        "label": "Button Text Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "range",
+        "id": "button_radius",
+        "label": "Button Border Radius",
+        "min": 0,
+        "max": 32,
+        "step": 2,
+        "default": 8
+      },
+      {
+        "type": "range",
+        "id": "site_max_width",
+        "label": "Max Site Width (px)",
+        "min": 800,
+        "max": 1600,
+        "step": 50,
+        "default": 1200
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_shadows",
+        "label": "Enable Box Shadows",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "image_filter",
+        "label": "Image Filter",
+        "options": [
+          { "value": "none", "label": "None" },
+          { "value": "sepia", "label": "Sepia" },
+          { "value": "grayscale", "label": "Grayscale" },
+          { "value": "contrast", "label": "High Contrast" }
+        ],
+        "default": "none"
+      }
+    ]
+  }
+]

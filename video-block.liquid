@@ -1,0 +1,29 @@
+<section class="video-block" style="text-align: center; padding: 2rem;">
+  {% if section.settings.video_url %}
+    <video controls style="max-width: 100%; border-radius: 10px;">
+      <source src="{{ section.settings.video_url }}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  {% else %}
+    <p style="color: #999;">No video selected yet.</p>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Video Block",
+  "settings": [
+    {
+      "type": "url",
+      "id": "video_url",
+      "label": "Video URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Video Block",
+      "category": "Media"
+    }
+  ]
+}
+{% endschema %}

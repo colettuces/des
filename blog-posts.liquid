@@ -1,0 +1,92 @@
+<section class="blog-posts" style="padding: 2rem;">
+  <h2 style="text-align: center; font-size: {{ section.settings.heading_size }}px; color: {{ section.settings.heading_color }};">
+    {{ section.settings.heading }}
+  </h2>
+
+  <div class="blog-grid" style="display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin-top: 2rem;">
+    {% for article in blogs[section.settings.blog].articles limit: section.settings.post_count %}
+      <div class="blog-post" style="border: 1px solid #eee; border-radius: 8px; overflow: hidden; background: white;">
+        {% if section.settings.show_images and article.image %}
+          <a href="{{ article.url }}">
+            <img src="{{ article.image | image_url: width: 600 }}" alt="{{ article.title | escape }}" loading="lazy" style="width: 100%; height: auto;">
+          </a>
+        {% endif %}
+        <div style="padding: 1rem;">
+          <h3 style="margin-bottom: 0.5rem; font-size: {{ section.settings.title_font_size }}px;">{{ article.title }}</h3>
+          <p style="color: #666;">{{ article.excerpt | truncatewords: 25 }}</p>
+          <a href="{{ article.url }}" style="color: {{ section.settings.link_color }};">Read more →</a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Blog Posts",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Latest Blog Posts"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading Size",
+      "min": 18,
+      "max": 48,
+      "step": 2,
+      "default": 28
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#2f2f2f"
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link Color",
+      "default": "#933f1a"
+    },
+    {
+      "type": "range",
+      "id": "post_count",
+      "label": "Number of Posts",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Select Blog",
+      "default": "news"
+    },
+    {
+      "type": "range",
+      "id": "title_font_size",
+      "label": "Title Font Size",
+      "min": 14,
+      "max": 28,
+      "default": 18
+    },
+    {
+      "type": "checkbox",
+      "id": "show_images",
+      "label": "Show Featured Images",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog Posts",
+      "category": "Content"
+    }
+  ]
+}
+{% endschema %}

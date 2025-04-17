@@ -1,0 +1,42 @@
+<section class="text-block" style="padding: 2rem; max-width: 800px; margin: auto; text-align: center;">
+  <h2 style="color: {{ section.settings.heading_color }};">{{ section.settings.heading }}</h2>
+  <p style="color: {{ section.settings.text_color }};">{{ section.settings.paragraph }}</p>
+</section>
+
+{% schema %}
+{
+  "name": "Text Block",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Your Heading Here"
+    },
+    {
+      "type": "textarea",
+      "id": "paragraph",
+      "label": "Paragraph",
+      "default": "This is where your customizable paragraph goes. Write your story, mission, or any content."
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#933f1a"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#6a4e32"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Text Block",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

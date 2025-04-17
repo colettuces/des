@@ -1,0 +1,53 @@
+<section class="cart-page" role="main" style="padding: 3rem 1.5rem; max-width: 1200px; margin: auto;">
+  <h1 style="text-align: center; font-size: 2rem; color: {{ settings.global_text_color }};">Your Cart</h1>
+
+  {% if cart.item_count == 0 %}
+    <p style="text-align: center; margin-top: 2rem;">Your cart is empty.</p>
+  {% else %}
+    <form method="post" action="/cart" id="cart" novalidate>
+      <table style="width: 100%; border-collapse: collapse; margin-top: 2rem;">
+        <thead>
+          <tr style="border-bottom: 1px solid #eee;">
+            <th style="text-align: left;">Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in cart.items %}
+            <tr style="border-bottom: 1px solid #eee;">
+              <td style="padding: 1rem 0; display: flex; gap: 1rem; align-items: center;">
+                <img src="{{ item.image | image_url: width: 100 }}" alt="{{ item.product.title | escape }}" loading="lazy" style="width: 80px; border-radius: 8px;">
+                <div>
+                  <a href="{{ item.url }}" style="font-weight: bold;">{{ item.product.title }}</a><br>
+                  {% if item.variant.title != 'Default Title' %}
+                    <small style="color: #777;">{{ item.variant.title }}</small>
+                  {% endif %}
+                </div>
+              </td>
+              <td style="text-align: center;">
+                <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" style="width: 60px; text-align: center;" aria-label="Change quantity for {{ item.product.title }}">
+              </td>
+              <td style="text-align: center;">{{ item.price | money }}</td>
+              <td style="text-align: center;">{{ item.line_price | money }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <!-- Cart Note -->
+      <div style="margin-top: 2rem;">
+        <label for="cart-note" style="font-weight: bold;">Add a note to your order</label>
+        <textarea name="note" id="cart-note" form="cart" rows="4" style="width: 100%; margin-top: 0.5rem; padding: 0.75rem; border-radius: 6px; border: 1px solid #ccc;">{{ cart.note }}</textarea>
+      </div>
+
+      <!-- Cart Totals -->
+      <div style="margin-top: 2rem; text-align: right;">
+        <p><strong>Subtotal:</strong> {{ cart.total_price | money }}</p>
+        <input type="submit" name="update" value="Update Cart" class="btn btn-secondary" style="margin-top: 1rem;">
+        <a href="/checkout" class="btn btn-primary" style="margin-left: 1rem;">Checkout</a>
+      </div>
+    </form>
+  {% endif %}
+</section>

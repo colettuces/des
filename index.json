@@ -1,0 +1,41 @@
+{
+  "sections": {
+    "hero": { "type": "hero" },
+    "welcome": { "type": "welcome" },
+    "featured_product": { "type": "featured-product-block" },
+    "testimonial": { "type": "testimonial-carousel" },
+    "bookstagram": { "type": "bookstagram-banner" },
+    "image_block": { "type": "image-block" },
+    "text_block": { "type": "text-block" },
+    "video_block": { "type": "video-block" },
+    "mockups_pngs": { "type": "mockups-pngs" },
+    "products": { "type": "products" },
+    "collections": { "type": "collections" },
+    "shop_all": { "type": "shop-all" },
+    "blog": { "type": "blog-posts" },
+    "recently_viewed": { "type": "recently-viewed" },
+    "newsletter": { "type": "newsletter-signup" },
+    "back_to_top": { "type": "back-to-top" },
+    "footer": { "type": "footer" }
+  },
+  "order": [
+    "header",
+    "hero",
+    "welcome",
+    "featured_product",
+    "testimonial",
+    "bookstagram",
+    "image_block",
+    "text_block",
+    "video_block",
+    "mockups_pngs",
+    "products",
+    "collections",
+    "shop_all",
+    "blog",
+    "recently_viewed",
+    "newsletter",
+    "back_to_top",
+    "footer"
+  ]
+}

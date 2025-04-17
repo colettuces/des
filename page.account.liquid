@@ -1,0 +1,49 @@
+{% layout 'theme' %}
+
+{% if customer %}
+  <section style="padding: 2rem; max-width: 900px; margin: auto;">
+    <h2>Welcome, {{ customer.first_name }}!</h2>
+
+    <hr>
+
+    <h3>Your Orders</h3>
+    {% if customer.orders.size > 0 %}
+      <ul>
+        {% for order in customer.orders %}
+          <li>
+            Order #{{ order.name }} — {{ order.total_price | money }} — {{ order.created_at | date: "%B %d, %Y" }}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>You haven’t placed any orders yet.</p>
+    {% endif %}
+
+    <hr>
+
+    <h3>Your Loyalty Points</h3>
+    <p>{{ customer.metafields.loyalty.points }} points</p>
+
+    <h3>Membership Level</h3>
+    {% assign total = customer.metafields.loyalty.points | plus: 0 %}
+    {% assign tier = '' %}
+    {% assign max_points = 1000 %}
+    {% if total >= 1000 %}
+      {% assign tier = 'Gold' %}
+      {% assign max_points = 1000 %}
+    {% elsif total >= 500 %}
+      {% assign tier = 'Silver' %}
+      {% assign max_points = 1000 %}
+    {% else %}
+      {% assign tier = 'Bronze' %}
+      {% assign max_points = 500 %}
+    {% endif %}
+
+    <p>Status: {{ tier }}</p>
+    <div style="background: #eee; height: 20px; border-radius: 10px; overflow: hidden;">
+      <div style="height: 100%; width: {{ total | divided_by: max_points | times: 100 }}%; background: {% if tier == 'Gold' %}gold{% elsif tier == 'Silver' %}silver{% else %}#cd7f32{% endif %}; transition: width 0.4s;"></div>
+    </div>
+  </section>
+{% else %}
+  <p style="text-align: center; padding: 2rem;">Please <a href="/account/login">log in</a> to view your account.</p>
+{% endif %}

@@ -1,0 +1,118 @@
+<section class="shop-all-section" style="
+  text-align: {{ settings.global_text_alignment }};
+  font-family: {% if settings.global_font_family == 'averia' %}'Averia Serif Libre'{% elsif settings.global_font_family == 'inter' %}'Inter'{% else %}'Work Sans'{% endif %}, sans-serif;
+  color: {{ settings.global_text_color }};
+  padding: 4rem 2rem;
+">
+  <h2>
+    {% if paginate.pages > 1 %}
+      {{ collections['all'].products_count }} Products — Page {{ paginate.current_page }} of {{ paginate.pages }}
+    {% else %}
+      Showing {{ paginate.items }} Products
+    {% endif %}
+  </h2>
+
+  {% paginate collections['all'].products by section.settings.products_per_page %}
+    <div class="product-grid">
+      {% for product in collections['all'].products %}
+        <div class="product-card">
+          <a href="{{ product.url }}">
+            <img src="{{ product.featured_image | image_url: width: 400 }}" alt="{{ product.title }}" />
+            <h3>{{ product.title }}</h3>
+            <p>{{ product.price | money }}</p>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="pagination">
+      {{ paginate | default_pagination }}
+    </div>
+  {% endpaginate %}
+</section>
+
+<style>
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .product-card {
+    text-align: center;
+    padding: 1rem;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    background: #fff;
+  }
+
+  .product-card:hover {
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  }
+
+  .product-card img {
+    max-width: 100%;
+    border-radius: 4px;
+  }
+
+  .product-card h3 {
+    margin-top: 1rem;
+    font-size: 1.1rem;
+  }
+
+  .product-card p {
+    font-weight: 600;
+    color: #666;
+  }
+
+  .pagination {
+    text-align: center;
+    margin-top: 2rem;
+  }
+
+  .pagination a,
+  .pagination span {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    margin: 0 0.25rem;
+    background: #f5f5f5;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #333;
+  }
+
+  .pagination .current {
+    background: #333;
+    color: #fff;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Shop All",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "All Products"
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Products Per Page",
+      "min": 3,
+      "max": 24,
+      "step": 3,
+      "default": 6
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop All Section"
+    }
+  ]
+}
+{% endschema %}
