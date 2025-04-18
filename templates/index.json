@@ -19,7 +19,6 @@
     "footer": { "type": "footer" }
   },
   "order": [
-    "header",
     "hero",
     "welcome",
     "featured_product",
