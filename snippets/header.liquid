@@ -1,0 +1,78 @@
+<header class="site-header sticky-header" style="position: sticky; top: 0; width: 100%; z-index: 9999; background: {{ settings.global_bg_color }}; text-align: {{ settings.global_text_alignment }}; padding: 2rem 2rem 1rem;">
+  <!-- Logo -->
+  <a href="{{ routes.root_url }}" class="logo" style="font-size: 2rem; font-weight: bold; color: {{ settings.global_text_color }}; text-decoration: none; font-family: {% if settings.global_font_family == 'averia' %}'Averia Serif Libre'{% elsif settings.global_font_family == 'inter' %}'Inter'{% else %}'Work Sans'{% endif %};">
+    {{ shop.name }}
+  </a>
+
+  <!-- Navigation -->
+  <nav class="nav-links" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.2rem; margin-top: 1rem; font-family: {% if settings.global_font_family == 'averia' %}'Averia Serif Libre'{% elsif settings.global_font_family == 'inter' %}'Inter'{% else %}'Work Sans'{% endif %};">
+    {% for link in linklists.main-menu.links %}
+      <a href="{{ link.url }}">{{ link.title }}</a>
+    {% endfor %}
+  </nav>
+
+  <!-- AJAX Cart Drawer Icon -->
+  <a href="#" class="cart-icon" onclick="document.getElementById('cart-drawer').classList.add('open'); return false;" aria-label="Open Cart">
+    <svg width="26" height="26" fill="#6a4e32" viewBox="0 0 24 24">
+      <path d="M7 4h-2l-3 9h19l3-9h-2l-1.2 3.6h-14.6zM9 20c1.1 0 1.99-.9 1.99-2s-.89-2-1.99-2c-1.1 0-2 .9-2 2s.89 2 2 2zm9 0c1.1 0 1.99-.9 1.99-2s-.89-2-1.99-2c-1.1 0-2 .9-2 2s.89 2 2 2z"/>
+    </svg>
+  </a>
+
+  <!-- Live Search -->
+  <div style="position: relative; margin-top: 1.5rem; max-width: 400px; margin-left: auto; margin-right: auto;">
+    <input type="text" id="live-search" placeholder="Search..." autocomplete="off"
+           style="padding: 0.75rem 1rem; width: 100%; border: 1px solid #ccc; border-radius: 6px;">
+    <ul id="live-search-results" style="position: absolute; top: 100%; left: 0; right: 0; background: #fffdf6; border: 1px solid #eee; border-top: none; z-index: 1000; list-style: none; padding: 0; margin: 0; display: none;"></ul>
+  </div>
+</header>
+
+<!-- Live Search Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const input = document.getElementById('live-search');
+  const resultsBox = document.getElementById('live-search-results');
+
+  input.addEventListener('input', function () {
+    const query = input.value.trim();
+    if (query.length < 2) {
+      resultsBox.style.display = 'none';
+      return;
+    }
+
+    fetch(`/search/suggest.json?q=${encodeURIComponent(query)}&resources[type]=product,page,article&resources[limit]=6`)
+      .then(res => res.json())
+      .then(data => {
+        resultsBox.innerHTML = '';
+        const items = [
+          ...(data.resources.products.results || []),
+          ...(data.resources.pages.results || []),
+          ...(data.resources.articles.results || [])
+        ];
+
+        if (items.length === 0) {
+          resultsBox.innerHTML = `<li style="padding: 0.5rem; color: #6a4e32;">No results found</li>`;
+        } else {
+          items.forEach(item => {
+            const li = document.createElement('li');
+            li.style.padding = '0.75rem';
+            li.style.borderBottom = '1px solid #eee';
+
+            li.innerHTML = `
+              <a href="${item.url}" style="text-decoration: none; color: #5a3e2b; display: flex; gap: 1rem; align-items: center;">
+                ${item.featured_image ? `<img src="${item.featured_image}" style="width: 40px; border-radius: 4px;">` : ''}
+                <span>${item.title}</span>
+              </a>`;
+            resultsBox.appendChild(li);
+          });
+        }
+        resultsBox.style.display = 'block';
+      });
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!resultsBox.contains(e.target) && e.target !== input) {
+      resultsBox.style.display = 'none';
+    }
+  });
+});
+</script>
