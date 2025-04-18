@@ -1,34 +1,20 @@
-<div class="product-card">
-  <div class="product-image-wrapper" style="position: relative;">
-    <a href="{{ product.url }}">
-      <img
-        src="{{ product.featured_image | image_url: width: 600 }}"
-        alt="{{ product.title }}"
-        class="product-image"
-      />
-    </a>
-    {% if show_sale_badge and product.compare_at_price > product.price %}
-      <span class="sale-badge">
-        {{ badge_text | default: 'Sale' }}
-      </span>
-    {% endif %}
-  </div>
-
-  <h3 class="product-title">
-    <a href="{{ product.url }}" style="color: inherit; text-decoration: none;">{{ product.title }}</a>
-  </h3>
-
-  <p class="product-price">
-    {% if product.compare_at_price > product.price %}
-      <span class="price-current">{{ product.price | money }}</span>
-      <span class="price-compare" style="text-decoration: line-through; color: #999;">{{ product.compare_at_price | money }}</span>
-    {% else %}
-      <span class="price-current">{{ product.price | money }}</span>
-    {% endif %}
-  </p>
-
-  <form class="add-to-cart-form" method="post" action="/cart/add">
-    <input type="hidden" name="id" value="{{ product.variants.first.id }}">
-    <button type="submit" class="btn btn-primary">Add to Cart</button>
-  </form>
+<div class="product-card" style="background: white; padding: 1rem; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center;">
+  <a href="{{ product.url }}" style="text-decoration: none; color: inherit;">
+    <div class="product-image" style="position: relative;">
+      {% if product.featured_image %}
+        <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title | escape }}" style="width: 100%; border-radius: 12px; aspect-ratio: 1 / 1; object-fit: cover;" loading="lazy">
+      {% endif %}
+      {% if product.compare_at_price > product.price %}
+        <span class="badge-sale" style="position: absolute; top: 10px; left: 10px; background: #c4562a; color: white; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Sale</span>
+      {% endif %}
+    </div>
+    <h3 style="margin: 1rem 0 0.5rem; font-size: 1.2rem;">{{ product.title }}</h3>
+    <p style="color: #6a4e32; font-weight: bold; margin: 0;">
+      {{ product.price | money }}
+    </p>
+    <form method="post" action="/cart/add">
+      <input type="hidden" name="id" value="{{ product.variants.first.id }}">
+      <button type="submit" class="btn" style="background: #c4562a; color: white; padding: 0.5rem 1rem; border-radius: 6px; margin-top: 0.8rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">Add to Cart</button>
+    </form>
+  </a>
 </div>
