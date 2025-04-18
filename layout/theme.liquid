@@ -27,16 +27,15 @@
   {% endif %};
 ">
 
- {% render 'header' %}
+  {% render 'header' %}
+
   <main role="main">
     {{ content_for_layout }}
   </main>
+
   {% section 'footer' %}
 
-  <!-- Cart Drawer + Scripts -->
   {{ 'scripts.js' | asset_url | script_tag }}
-
-  <!-- Lazy load & Search + Cart + Swiper Setup -->
   <script defer src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
   <script>
