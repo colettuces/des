@@ -1,21 +1,24 @@
-<section style="background: rgba(255,255,255,0.9); padding: 3rem 1rem;">
-  <h2 style="text-align: center; font-size: {{ section.settings.heading_size }}px; font-family: {% if settings.global_font_family == 'averia' %}'Averia Serif Libre'{% elsif settings.global_font_family == 'inter' %}'Inter'{% else %}'Work Sans'{% endif %}; color: {{ settings.global_text_color }};">
+<section style="background: rgba(255,255,255,0.92); padding: 3rem 1rem;">
+  <h2 style="text-align: center; font-size: {{ section.settings.heading_size }}px; font-family: var(--heading-font); color: {{ settings.global_text_color }};">
     {{ section.settings.heading_text }}
   </h2>
 
   <div class="swiper bookstagram-swiper" style="margin-top: 2rem;">
     <div class="swiper-wrapper">
       {% for block in section.blocks %}
-        <div class="swiper-slide" style="max-width: 400px; margin: auto; background: white; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); padding: 1rem;">
-          {% if block.settings.image_url != blank %}
-            <img src="{{ block.settings.image_url }}" alt="Bookstagram post" style="width: 100%; border-radius: 8px;" loading="lazy">
+        <div class="swiper-slide" style="text-align: center;">
+          {% if block.settings.image %}
+            <img src="{{ block.settings.image | image_url: width: 800 }}" alt="Bookstagram post" style="width: 100%; max-width: 400px; border-radius: 10px;" loading="lazy">
           {% endif %}
-          <p style="font-weight: bold; color: #000; margin-top: 0.75rem; font-size: 1rem;">{{ block.settings.username }}</p>
-          <p style="font-family: Helvetica, Arial, sans-serif; color: #444; font-size: 0.9rem;">{{ block.settings.caption }}</p>
+          {% if block.settings.username %}
+            <strong style="display: block; margin-top: 1rem;">{{ block.settings.username }}</strong>
+          {% endif %}
+          {% if block.settings.caption %}
+            <p style="margin-top: 0.2rem; color: #555; font-family: Helvetica, sans-serif;">{{ block.settings.caption }}</p>
+          {% endif %}
         </div>
       {% endfor %}
     </div>
-
     <div class="swiper-button-next" style="color: #6a4e32;"></div>
     <div class="swiper-button-prev" style="color: #6a4e32;"></div>
   </div>
@@ -44,51 +47,20 @@
 {
   "name": "Bookstagram Carousel",
   "settings": [
-    {
-      "type": "text",
-      "id": "heading_text",
-      "label": "Heading Text",
-      "default": "Show Off your Latest Reads"
-    },
-    {
-      "type": "range",
-      "id": "heading_size",
-      "label": "Heading Font Size",
-      "min": 16,
-      "max": 48,
-      "default": 32
-    }
+    { "type": "text", "id": "heading_text", "label": "Heading Text", "default": "Show Off your Latest Reads" },
+    { "type": "range", "id": "heading_size", "label": "Heading Font Size", "min": 16, "max": 48, "default": 32 }
   ],
   "blocks": [
     {
-      "type": "bookstagram_post",
+      "type": "image_slide",
       "name": "Bookstagram Post",
       "settings": [
-        {
-          "type": "text",
-          "id": "username",
-          "label": "Username",
-          "default": "@booklover"
-        },
-        {
-          "type": "url",
-          "id": "image_url",
-          "label": "Image URL"
-        },
-        {
-          "type": "textarea",
-          "id": "caption",
-          "label": "Caption",
-          "default": "This was my favorite read this month. What’s on your TBR?"
-        }
+        { "type": "image_picker", "id": "image", "label": "Bookstagram Photo" },
+        { "type": "text", "id": "username", "label": "Instagram Username", "default": "booklover123" },
+        { "type": "text", "id": "caption", "label": "Caption", "default": "Just finished this gem!" }
       ]
     }
   ],
-  "presets": [
-    {
-      "name": "Bookstagram Carousel",
-      "category": "Media"
-    }
-  ]
+  "presets": [{ "name": "Bookstagram Carousel", "category": "Media" }]
 }
 {% endschema %}
