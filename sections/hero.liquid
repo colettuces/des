@@ -1,61 +1,41 @@
+<section class="hero" style="text-align: center; padding: 5rem 2rem; position: relative;">
+  <div class="hero-content" style="max-width: 800px; margin: auto;">
+    <h1 style="font-size: 3rem; font-weight: 700; line-height: 1.2; margin-bottom: 1rem; color: {{ section.settings.heading_color }};">
+      {{ section.settings.heading }}
+    </h1>
+    <p style="font-size: 1.2rem; margin-bottom: 2rem; color: {{ section.settings.text_color }};">
+      {{ section.settings.subheading }}
+    </p>
+    {% if section.settings.button_text != blank and section.settings.button_link != blank %}
+      <a href="{{ section.settings.button_link }}" class="btn" style="
+        background-color: {{ section.settings.button_color }};
+        color: {{ section.settings.button_text_color }};
+        padding: 0.8rem 1.6rem;
+        font-weight: bold;
+        font-size: 1rem;
+        border-radius: 6px;
+        text-decoration: none;
+        display: inline-block;
+      ">
+        {{ section.settings.button_text }}
+      </a>
+    {% endif %}
+  </div>
+</section>
+
 {% schema %}
 {
   "name": "Hero Banner",
   "settings": [
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Main Heading",
-      "default": "Welcome to DesignsbyColettuces"
-    },
-    {
-      "type": "text",
-      "id": "subheading",
-      "label": "Subheading",
-      "default": "Design tools, templates, and bookish branding magic ✨"
-    },
-    {
-      "type": "text",
-      "id": "button_text",
-      "label": "Button Text",
-      "default": "Shop Now"
-    },
-    {
-      "type": "url",
-      "id": "button_link",
-      "label": "Button Link",
-      "default": "/collections/all"
-    },
-    {
-      "type": "color",
-      "id": "heading_color",
-      "label": "Heading Color", 
-      "default": "#933f1a"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Subheading Text Color",
-      "default": "#6a4e32"
-    },
-    {
-      "type": "color",
-      "id": "button_color",
-      "label": "Button Background Color",
-      "default": "#c4562a"
-    },
-    {
-      "type": "color",
-      "id": "button_text_color",
-      "label": "Button Text Color",
-      "default": "#ffffff"
-    }
+    { "type": "text", "id": "heading", "label": "Main Heading", "default": "Welcome to DesignsbyColettuces" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Design tools, templates, and bookish branding magic ✨" },
+    { "type": "text", "id": "button_text", "label": "Button Text", "default": "Shop Now" },
+    { "type": "url", "id": "button_link", "label": "Button Link", "default": "/collections/all" },
+    { "type": "color", "id": "heading_color", "label": "Heading Color", "default": "#933f1a" },
+    { "type": "color", "id": "text_color", "label": "Subheading Text Color", "default": "#6a4e32" },
+    { "type": "color", "id": "button_color", "label": "Button Background Color", "default": "#c4562a" },
+    { "type": "color", "id": "button_text_color", "label": "Button Text Color", "default": "#ffffff" }
   ],
-  "presets": [
-    {
-      "name": "Hero Banner",
-      "category": "Custom"
-    }
-  ]
+  "presets": [{ "name": "Hero Banner", "category": "Custom" }]
 }
 {% endschema %}
